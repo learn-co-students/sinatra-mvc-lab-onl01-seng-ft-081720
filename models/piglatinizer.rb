@@ -1,18 +1,20 @@
-class Piglatinizer
-    attr_accessor :text
+class PigLatinizer
 
-    def initialize(text)
-        @text = text.downcase
+    def piglatinize(words)
+       words.split(" ").map do | word |
+        word.start_with?(/[aeiou]/i) ? vowel(word) : consonant(word)
+       end.join(" ")
     end
 
-    def piglatinize
-        self.text.scan(/[\w'-]+|[[:punct:]]+/).map do | word |
-            if  word.start_with?("a", "e", "i", "o", "u")
-                word + "way"
-            elsif word.start_with?(/[a-z]/)
-                word.chars.rotate.join + "ay"
-            else
-            end
-        end.join(" ")
+    def vowel(word)
+        pig_word = word + "way"
+    end
+
+    def consonant(word)
+        new_word = word
+        until new_word.start_with?(/[aeiou]/i)
+            new_word = new_word.chars.rotate.join
+        end
+        pig_word = new_word + "ay"
     end
 end
